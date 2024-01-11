@@ -4,6 +4,7 @@ import { useState } from "react";
 
 export default function Header() {
     const [searchText, setSearchText] = useState("");
+    const [showAutoSuggest, setShowAutoSuggest] = useState(false);
 
     const handleKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
@@ -22,14 +23,20 @@ export default function Header() {
                         value={searchText}
                         onKeyUp={handleKey}
                         onChange={(e) => setSearchText(e.target.value)}
+                        onFocus={() => setShowAutoSuggest(true)}
+                        onBlur={() => setShowAutoSuggest(false)}
                     />
                 </div>
-                <div id="auto-suggest" className="w-full md:w-[400px] fixed absolute right-0 bg-white rounded">
-                    <div id="auto-suggest-item" className="px-4 py-2 hover:bg-zinc-100 cursor-pointer">City, State, Country</div>
-                    <div id="auto-suggest-item" className="px-4 py-2 hover:bg-zinc-100 cursor-pointer">City, State, Country</div>
-                    <div id="auto-suggest-item" className="px-4 py-2 hover:bg-zinc-100 cursor-pointer">City, State, Country</div>
-                    <div id="auto-suggest-item" className="px-4 py-2 hover:bg-zinc-100 cursor-pointer">City, State, Country</div>
-                </div>
+                {
+                    showAutoSuggest
+                    &&
+                    <div id="auto-suggest" className="w-full md:w-[400px] fixed absolute right-0 bg-white rounded">
+                        <div id="auto-suggest-item" className="px-4 py-2 hover:bg-zinc-100 cursor-pointer">City, State, Country</div>
+                        <div id="auto-suggest-item" className="px-4 py-2 hover:bg-zinc-100 cursor-pointer">City, State, Country</div>
+                        <div id="auto-suggest-item" className="px-4 py-2 hover:bg-zinc-100 cursor-pointer">City, State, Country</div>
+                        <div id="auto-suggest-item" className="px-4 py-2 hover:bg-zinc-100 cursor-pointer">City, State, Country</div>
+                    </div>
+                }
             </div>
         </header>
     );
