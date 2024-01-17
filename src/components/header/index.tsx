@@ -1,16 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
+import { LocationsType } from "@/types/weather/geolocation";
 
 export default function Header() {
     const [searchText, setSearchText] = useState("");
+    const [searchResults, setSearchResults] = useState<LocationsType>([]);
     const [showAutoSuggest, setShowAutoSuggest] = useState(false);
 
-    const handleKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") {
-            // Submit input, make API call
+    const handleKey = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter" && searchText.trim().length > 0) {
+            // Make API Call for Search
         }
     };
+
+    const handleInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        setSearchText(e.target.value);
+
+        if (value.trim().length > 0) {
+            const searchValue = encodeURIComponent(value.trim());
+            const res = await fetch(`/frontend/api/geo?loc=${searchValue}`)
+            const data = await res.json();
+
+            setSearchResults(data);
+        } else {
+            setSearchResults([]);
+        }
+    };
+
+    console.log("searchResults: ", searchResults);
 
     return (
         <header className="text-white font-light my-6">
@@ -22,7 +42,7 @@ export default function Header() {
                         className="flex-1 px-4 py-2 border outline-none rounded"
                         value={searchText}
                         onKeyUp={handleKey}
-                        onChange={(e) => setSearchText(e.target.value)}
+                        onChange={handleInput}
                         onFocus={() => setShowAutoSuggest(true)}
                         onBlur={() => setShowAutoSuggest(false)}
                     />
@@ -31,10 +51,23 @@ export default function Header() {
                     showAutoSuggest
                     &&
                     <div id="auto-suggest" className="w-full md:w-[400px] fixed absolute right-0 bg-white rounded">
-                        <div id="auto-suggest-item" className="px-4 py-2 hover:bg-zinc-100 cursor-pointer">City, State, Country</div>
-                        <div id="auto-suggest-item" className="px-4 py-2 hover:bg-zinc-100 cursor-pointer">City, State, Country</div>
-                        <div id="auto-suggest-item" className="px-4 py-2 hover:bg-zinc-100 cursor-pointer">City, State, Country</div>
-                        <div id="auto-suggest-item" className="px-4 py-2 hover:bg-zinc-100 cursor-pointer">City, State, Country</div>
+                        {
+                            searchResults.map((location, index) => {
+                                const name = location["name"];
+                                const state = location["state"];
+                                const country = location["country"];
+                                const lat = location["lat"];
+                                const lon = location["lon"];
+                                const uniqId = `${lat}${lon}`;
+
+                                return (
+                                    <div id="auto-suggest-item" key={uniqId} className="px-4 py-2 hover:bg-zinc-100 cursor-pointer flex justify-between items-center">
+                                        <p className="text-sm">{name}, {state}, {country}</p>
+                                        <p className="text-xs text-gray-500">{lat}, {lon}</p>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                 }
             </div>
