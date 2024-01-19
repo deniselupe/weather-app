@@ -10,8 +10,28 @@ export default function Header() {
     const [selectedItem, setSelectedItem] = useState(-1);
 
     const handleKey = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter" && searchText.trim().length > 0) {
-            // Make API Call for Search
+        if (e.key === "ArrowDown") {
+            setSelectedItem((prev) => {
+                if (prev < searchResults.length - 1) {
+                    return prev + 1;
+                } else {
+                    return 0;
+                }
+            });
+        } else if (e.key === "ArrowUp") {
+            setSelectedItem((prev) => {
+                if (prev > 0) {
+                    return prev - 1;
+                } else {
+                    return searchResults.length - 1;
+                }
+            });
+        } else if (e.key === "Enter") {
+            if (searchResults.length > 0) {
+                // Make API Call for Weather Data
+            } else {
+                // Let the user know that there are no items to search with input provided
+            }
         }
     };
 
@@ -30,8 +50,6 @@ export default function Header() {
             setSearchResults([]);
         }
     };
-
-    console.log("searchResults: ", searchResults);
 
     return (
         <header className="text-white font-light my-6">
