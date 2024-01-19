@@ -7,6 +7,7 @@ export default function Header() {
     const [searchText, setSearchText] = useState("");
     const [searchResults, setSearchResults] = useState<LocationsType>([]);
     const [showAutoSuggest, setShowAutoSuggest] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(-1);
 
     const handleKey = async (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && searchText.trim().length > 0) {
@@ -61,7 +62,13 @@ export default function Header() {
                                 const uniqId = `${lat}${lon}`;
 
                                 return (
-                                    <div id="auto-suggest-item" key={uniqId} className="px-4 py-2 hover:bg-zinc-100 cursor-pointer flex justify-between items-center">
+                                    <div
+                                        id="auto-suggest-item"
+                                        key={uniqId}
+                                        className={`px-4 py-2 ${selectedItem === index && "bg-zinc-100"} cursor-pointer flex justify-between items-center rounded`}
+                                        onMouseEnter={() => setSelectedItem(index)}
+                                        onMouseLeave={() => setSelectedItem(-1)}
+                                    >
                                         <p className="text-sm">{name}, {state}, {country}</p>
                                         <p className="text-xs text-gray-500">{lat}, {lon}</p>
                                     </div>
