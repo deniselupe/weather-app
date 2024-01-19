@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { LocationsType } from "@/types/weather/geolocation";
 
 export default function Header() {
@@ -8,6 +8,41 @@ export default function Header() {
     const [searchResults, setSearchResults] = useState<LocationsType>([]);
     const [showAutoSuggest, setShowAutoSuggest] = useState(false);
     const [selectedItem, setSelectedItem] = useState(-1);
+
+    const debounce = (fn: (value: string) => void, delay: number) => {
+        let timeoutId: NodeJS.Timeout;
+
+        return (value: string) => {
+            clearTimeout(timeoutId);
+
+            timeoutId = setTimeout(() => {
+                fn(value);
+            }, delay);
+        };
+    };
+
+    const handleInputSearch = async (value: string) => {
+        if (value.trim().length > 0) {
+            const searchValue = encodeURIComponent(value.trim());
+            const res = await fetch(`/frontend/api/geo?loc=${searchValue}`);
+            const data = await res.json();
+
+            setSearchResults(data);
+        } else {
+            setSearchResults([]);
+        }
+
+        setSelectedItem(-1);
+    };
+
+    const debouncedHandleSearch = useCallback(debounce(handleInputSearch, 300), []);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        setSearchText(value);
+        debouncedHandleSearch(value);
+    };
 
     const handleInputKeydown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "ArrowDown") {
@@ -32,22 +67,6 @@ export default function Header() {
             } else {
                 // Let the user know that there are no items to search with input provided
             }
-        }
-    };
-
-    const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-
-        setSearchText(e.target.value);
-
-        if (value.trim().length > 0) {
-            const searchValue = encodeURIComponent(value.trim());
-            const res = await fetch(`/frontend/api/geo?loc=${searchValue}`)
-            const data = await res.json();
-
-            setSearchResults(data);
-        } else {
-            setSearchResults([]);
         }
     };
 
@@ -81,8 +100,8 @@ export default function Header() {
                         placeholder="City, State, Zip Code"
                         className="flex-1 px-4 py-2 border outline-none rounded"
                         value={searchText}
-                        onKeyDown={handleInputKeydown}
                         onChange={handleInputChange}
+                        onKeyDown={handleInputKeydown}
                         onFocus={handleInputFocus}
                         onBlur={handleInputBlur}
                     />
