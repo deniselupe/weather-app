@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LocationsType } from "@/types/weather/geolocation";
 
 export default function Header() {
@@ -50,6 +50,18 @@ export default function Header() {
             setSearchResults([]);
         }
     };
+
+    useEffect(() => {
+        if (selectedItem !== -1 && searchResults.length > 0) {
+            const selectedLoc = searchResults[selectedItem];
+            const locName = selectedLoc["name"];
+            const locState = selectedLoc["state"];
+            const locCountry = selectedLoc["country"];
+            const newSearchTextValue = `${locName}, ${locState}, ${locCountry}`;
+
+            setSearchText(newSearchTextValue);
+        }
+    }, [selectedItem]);
 
     return (
         <header className="text-white font-light my-6">
