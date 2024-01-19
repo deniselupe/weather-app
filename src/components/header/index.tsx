@@ -9,7 +9,7 @@ export default function Header() {
     const [showAutoSuggest, setShowAutoSuggest] = useState(false);
     const [selectedItem, setSelectedItem] = useState(-1);
 
-    const handleKey = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleInputKeydown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "ArrowDown") {
             setSelectedItem((prev) => {
                 if (prev < searchResults.length - 1) {
@@ -35,7 +35,7 @@ export default function Header() {
         }
     };
 
-    const handleInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
 
         setSearchText(e.target.value);
@@ -49,6 +49,15 @@ export default function Header() {
         } else {
             setSearchResults([]);
         }
+    };
+
+    const handleInputFocus = () => {
+        setShowAutoSuggest(true);
+    };
+
+    const handleInputBlur = () => {
+        setSelectedItem(-1);
+        setShowAutoSuggest(false);
     };
 
     useEffect(() => {
@@ -72,10 +81,10 @@ export default function Header() {
                         placeholder="City, State, Zip Code"
                         className="flex-1 px-4 py-2 border outline-none rounded"
                         value={searchText}
-                        onKeyUp={handleKey}
-                        onChange={handleInput}
-                        onFocus={() => setShowAutoSuggest(true)}
-                        onBlur={() => setShowAutoSuggest(false)}
+                        onKeyDown={handleInputKeydown}
+                        onChange={handleInputChange}
+                        onFocus={handleInputFocus}
+                        onBlur={handleInputBlur}
                     />
                 </div>
                 {
