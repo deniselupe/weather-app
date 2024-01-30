@@ -8,6 +8,7 @@ export default function Header() {
     const [searchResults, setSearchResults] = useState<LocationsType>([]);
     const [showAutoSuggest, setShowAutoSuggest] = useState(false);
     const [selectedItem, setSelectedItem] = useState(-1);
+    const [showInputError, setShowInputError] = useState(false);
 
     const debounce = (fn: (value: string) => void, delay: number) => {
         let timeoutId: NodeJS.Timeout;
@@ -40,43 +41,50 @@ export default function Header() {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
 
+        if (!!showInputError) {
+            setShowInputError(false);
+        }
+
         setSearchText(value);
         debouncedHandleSearch(value);
     };
 
-    const handleInputKeydown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleInputKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "ArrowDown") {
-            setSelectedItem((prev) => {
-                if (prev < searchResults.length - 1) {
-                    return prev + 1;
-                } else {
-                    return 0;
-                }
-            });
+            if (searchResults.length === 0) {
+                return;
+            } else {
+                setSelectedItem((prev) => {
+                    if (prev < searchResults.length - 1) {
+                        return prev + 1;
+                    } else {
+                        return 0;
+                    }
+                });
+            }
         } else if (e.key === "ArrowUp") {
-            setSelectedItem((prev) => {
-                if (prev > 0) {
-                    return prev - 1;
-                } else {
-                    return searchResults.length - 1;
-                }
-            });
+            e.preventDefault();
+
+            if (searchResults.length === 0) {
+                return;
+            } else {
+                setSelectedItem((prev) => {
+                    if (prev > 0) {
+                        return prev - 1;
+                    } else {
+                        return searchResults.length - 1;
+                    }
+                });
+            }
         } else if (e.key === "Enter") {
-            if (searchResults.length > 0) {
+            if (selectedItem !== -1 && searchResults.length > 0) {
+                if (e.target instanceof HTMLElement) e.target.blur();
                 // Make API Call for Weather Data
             } else {
                 // Let the user know that there are no items to search with input provided
+                setShowInputError(true);
             }
         }
-    };
-
-    const handleInputFocus = () => {
-        setShowAutoSuggest(true);
-    };
-
-    const handleInputBlur = () => {
-        setSelectedItem(-1);
-        setShowAutoSuggest(false);
     };
 
     useEffect(() => {
@@ -94,17 +102,18 @@ export default function Header() {
     return (
         <header className="text-white font-light my-6">
             <div className="w-5/6 md:w-3/4 mx-auto text-black relative">
-                <div id="search-bar" className="md:w-[400px] ml-auto flex gap-2 justify-end items-center">
+                <div id="search-bar" className="md:w-[400px] ml-auto">
                     <input
                         type="text"
-                        placeholder="City, State, Zip Code"
-                        className="flex-1 px-4 py-2 border outline-none rounded"
+                        placeholder="Search city..."
+                        className={`w-full px-4 py-2 border ${showInputError ? "outline outline-red-700" : "outline-none"} rounded`}
                         value={searchText}
                         onChange={handleInputChange}
                         onKeyDown={handleInputKeydown}
-                        onFocus={handleInputFocus}
-                        onBlur={handleInputBlur}
+                        onFocus={() => setShowAutoSuggest(true)}
+                        onBlur={() => setShowAutoSuggest(false)}
                     />
+                    {showInputError && <p className="mt-1 text-xs text-red-700">Not found. To make search precise, input the name of a city.</p>}
                 </div>
                 {
                     showAutoSuggest
