@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { LocationsType } from "@/types/weather/geolocation";
+import { LocationsType } from "@/types/geolocation";
 
 export default function Header() {
     const [searchText, setSearchText] = useState("");

@@ -1,5 +1,5 @@
 import { type NextRequest } from "next/server";
-import { LocationsType } from "@/types/weather/geolocation";
+import { LocationsType } from "@/types/geolocation";
 
 export async function GET(req: NextRequest) {
     const url = process.env.GEOCODE_URL;
