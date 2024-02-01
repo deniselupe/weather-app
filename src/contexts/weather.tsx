@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, createContext, useContext } from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 import { WeatherProviderProps, WeatherContextType, CurrentWeatherObjType, CurrentWeatherType } from "@/types/weather";
 
 const WeatherContext = createContext({} as WeatherContextType);
@@ -16,6 +16,10 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
             setCurrentWeather(data);
         }
     };
+
+    useEffect(() => {
+        fetchCurrentWeather(38.6319657, -90.2428756);
+    }, []);
 
     return (
         <WeatherContext.Provider value={{ fetchCurrentWeather }}>
