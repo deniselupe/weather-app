@@ -17,12 +17,28 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
         }
     };
 
+    const fetchMainWidgetData = () => {
+        if (Object.keys(currentWeather).length > 0) {
+            const data = structuredClone(currentWeather) as CurrentWeatherObjType;
+
+            return {
+                location: data.name,
+                currTemp: Math.round(data.main.temp),
+                description: data.weather[0].main,
+                minTemp: Math.round(data.main.temp_min),
+                maxTemp: Math.round(data.main.temp_max),
+            };
+        }
+
+        return null;
+    };
+
     useEffect(() => {
         fetchCurrentWeather(38.6319657, -90.2428756);
     }, []);
 
     return (
-        <WeatherContext.Provider value={{ fetchCurrentWeather }}>
+        <WeatherContext.Provider value={{ fetchCurrentWeather, fetchMainWidgetData }}>
             {children}
         </WeatherContext.Provider>
     );
