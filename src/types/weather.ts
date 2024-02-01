@@ -1,11 +1,3 @@
-export type WeatherProviderProps = {
-    children: React.ReactNode;
-};
-
-export type WeatherContextType = {
-    fetchCurrentWeather: (lat: number, lon: number) => void;
-};
-
 type CoordinateType = {
     lon: number;
     lat: number;
@@ -58,6 +50,14 @@ type SystemType = {
     sunset: number;
 };
 
+type MainWidgetDataType = {
+    location: string;
+    currTemp: number;
+    description: string;
+    minTemp: number;
+    maxTemp: number;
+};
+
 export type CurrentWeatherObjType = {
     coord: CoordinateType;
     weather: WeatherConditionType[];
@@ -77,3 +77,12 @@ export type CurrentWeatherObjType = {
 };
 
 export type CurrentWeatherType = CurrentWeatherObjType | {};
+
+export type WeatherProviderProps = {
+    children: React.ReactNode;
+};
+
+export type WeatherContextType = {
+    fetchCurrentWeather: (lat: number, lon: number) => void;
+    fetchMainWidgetData: () => MainWidgetDataType | null;
+};
