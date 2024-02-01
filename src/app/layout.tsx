@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
+import { WeatherProvider } from "@/contexts/weather";
 
 const outfit = Outfit({ weight: ["300", "400", "700"], subsets: ["latin"] });
 const outfitClassName = outfit.className;
@@ -17,7 +18,11 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <body className={outfitClassName}>{children}</body>
+      <body className={outfitClassName}>
+        <WeatherProvider>
+          {children}
+        </WeatherProvider>
+      </body>
     </html>
   )
 }
