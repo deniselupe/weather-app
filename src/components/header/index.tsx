@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { LocationsType } from "@/types/geolocation";
+import { useWeatherContext } from "@/contexts/weather";
 
 export default function Header() {
     const [searchText, setSearchText] = useState("");
@@ -9,17 +10,15 @@ export default function Header() {
     const [showAutoSuggest, setShowAutoSuggest] = useState(false);
     const [selectedItem, setSelectedItem] = useState(-1);
     const [showInputError, setShowInputError] = useState(false);
+    
+    const { fetchCurrentWeather } = useWeatherContext();
 
     const handleSubmit = () => {
-        console.log("searchText: ", searchText);
-        console.log("selectedItem: ", selectedItem);
         const selectedLoc = searchResults[selectedItem];
         const latCoord = selectedLoc["lat"];
         const lonCoord = selectedLoc["lon"];
-        console.log("selectedLoc: ", selectedLoc);
-        console.log("Lat: ",  latCoord);
-        console.log("Lon: ", lonCoord);
 
+        fetchCurrentWeather(latCoord, lonCoord);
         setShowInputError(false);
     };
 
