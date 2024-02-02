@@ -1,53 +1,77 @@
-type CoordinateType = {
-    lon: number;
-    lat: number;
-};
-
-type WeatherConditionType = {
+type WeatherType = {
     id: number;
     main: string;
     description: string;
     icon: string;
 };
 
-type WeatherMainType = {
-    temp: number;
-    feels_like: number;
-    temp_min: number;
-    temp_max: number;
-    pressure: number;
-    humidity: number;
-    sea_level?: number;
-    grnd_level?: number;
-};
-
-type WindType = {
-    speed: number;
-    deg: number;
-    gust?: number;
-};
-
-type RainType = {
-    "1h": number;
-    "3h": number;
-};
-
-type CloudsType = {
-    all: number;
-};
-
-type SnowType = {
-    "1h": number;
-    "3h": number;
-};
-
-type SystemType = {
-    type: number;
-    id: number;
-    message: string;
-    country: string;
+type CurrentWeatherType = {
+    dt: number;
     sunrise: number;
     sunset: number;
+    temp: number;
+    feels_like: number;
+    pressure: number;
+    humidity: number;
+    dew_point: number;
+    uvi: number;
+    clouds: number;
+    visibility: number;
+    wind_speed: number;
+    wind_deg: number;
+    wind_gust: number;
+    weather: WeatherType[];
+};
+
+type HourlyWeatherType = {
+    dt: number;
+    temp: number;
+    feels_like: number;
+    pressure: number;
+    humidity: number;
+    dew_point: number;
+    uvi: number;
+    clouds: number;
+    visibility: number;
+    wind_speed: number;
+    wind_deg: number;
+    wind_gust: number;
+    weather: WeatherType[];
+    pop: number;
+};
+
+type DailyWeatherType = {
+    dt: number;
+    sunrise: number;
+    sunset: number;
+    moonrise: number;
+    moonset: number;
+    moon_phase: number;
+    summary: string;
+    temp: {
+        day: number;
+        min: number;
+        max: number;
+        night: number;
+        eve: number;
+        morn: number;
+    };
+    feels_like: {
+        day: number;
+        night: number;
+        eve: number;
+        morn: number;
+    };
+    pressure: number;
+    humidity: number;
+    dew_point: number;
+    wind_speed: number;
+    wind_deg: number;
+    wind_gust: number;
+    weather: WeatherType[];
+    clouds: number;
+    pop: number;
+    uvi: number;
 };
 
 type MainWidgetDataType = {
@@ -58,31 +82,23 @@ type MainWidgetDataType = {
     maxTemp: number;
 };
 
-export type CurrentWeatherObjType = {
-    coord: CoordinateType;
-    weather: WeatherConditionType[];
-    base: string;
-    main: WeatherMainType;
-    visibility: number;
-    wind: WindType;
-    rain?: Partial<RainType>;
-    clouds: CloudsType;
-    snow?: Partial<SnowType>;
-    dt: number;
-    sys: Partial<SystemType>;
-    timezone: number;
-    id: number;
-    name: string;
-    cod: number;
+export type WeatherDataObjType = {
+    lat: number;
+    lon: number;
+    timezone: string;
+    timezone_offset: number;
+    current: CurrentWeatherType;
+    hourly: HourlyWeatherType[];
+    daily: DailyWeatherType[];
 };
 
-export type CurrentWeatherType = CurrentWeatherObjType | {};
+export type WeatherDataType = WeatherDataObjType | {};
 
 export type WeatherProviderProps = {
     children: React.ReactNode;
 };
 
 export type WeatherContextType = {
-    fetchCurrentWeather: (lat: number, lon: number) => void;
+    fetchCurrentWeather: (city: string, lat: number, lon: number) => void;
     fetchMainWidgetData: () => MainWidgetDataType | null;
 };

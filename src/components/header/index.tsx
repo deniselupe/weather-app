@@ -15,10 +15,11 @@ export default function Header() {
 
     const handleSubmit = () => {
         const selectedLoc = searchResults[selectedItem];
+        const city = selectedLoc["name"];
         const latCoord = selectedLoc["lat"];
         const lonCoord = selectedLoc["lon"];
 
-        fetchCurrentWeather(latCoord, lonCoord);
+        fetchCurrentWeather(city, latCoord, lonCoord);
         setShowInputError(false);
     };
 
