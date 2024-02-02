@@ -1,4 +1,5 @@
 import Header from "@/components/header";
+import Footer  from "@/components/footer";
 import MainWeatherWidget from "@/components/widgets/main-data";
 import CurrentWeatherWidget from "@/components/widgets/current-data";
 import ForecastCarouselWidget from "@/components/widgets/forecast-data";
@@ -16,6 +17,7 @@ export default function Home() {
           <ForecastCarouselWidget />
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
