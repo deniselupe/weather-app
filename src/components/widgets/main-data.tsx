@@ -10,7 +10,7 @@ export default function MainWeatherWidget() {
         return null;
     } else {
         return (
-            <div className="sm:w-72 sm:h-72 mb-2 p-10 flex flex-col items-center justify-center text-white">
+            <div className="sm:w-72 sm:h-72 mb-2 p-4 text-white">
                 <h2 className="text-2xl">My Location</h2>
                 <p className="text-md">{data.location}</p>
                 <h1 className="text-8xl">{data.currTemp}°</h1>
