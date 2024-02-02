@@ -92,6 +92,11 @@ type CurrentDataType = {
     uvIndex: number;
 };
 
+type ForecastDataType = {
+    dailyData: DailyWeatherType[];
+    hourlyData: HourlyWeatherType[];
+};
+
 export type WeatherDataObjType = {
     lat: number;
     lon: number;
@@ -112,4 +117,5 @@ export type WeatherContextType = {
     fetchWeatherData: (city: string, lat: number, lon: number) => void;
     fetchMainData: () => MainDataType | null;
     fetchCurrentData: () => CurrentDataType  | null;
+    fetchForecastData: () => ForecastDataType | null;
 };

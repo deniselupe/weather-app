@@ -54,12 +54,32 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
         return null;
     };
 
+    const fetchForecastData = () => {
+        if (Object.keys(weatherData).length > 0) {
+            const data = structuredClone(weatherData) as WeatherDataObjType;
+            
+            return {
+                dailyData: data.daily,
+                hourlyData: data.hourly
+            };
+        }
+
+        return null;
+    };
+
     useEffect(() => {
         fetchWeatherData("Saint Louis", 38.6319657, -90.2428756);
     }, []);
 
     return (
-        <WeatherContext.Provider value={{ fetchWeatherData, fetchMainData, fetchCurrentData }}>
+        <WeatherContext.Provider 
+            value={{ 
+                fetchWeatherData, 
+                fetchMainData, 
+                fetchCurrentData, 
+                fetchForecastData 
+            }}
+        >
             {children}
         </WeatherContext.Provider>
     );
