@@ -10,7 +10,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
     const [weatherData, setWeatherData] = useState<WeatherDataType>({});
 
     const fetchWeatherData = async (city: string, lat: number, lon: number) => {
-        const res = await fetch(`/frontend/api/weather?lat=${lat}&lon=${lon}`);
+        const res = await fetch(`/weather/api/weather?lat=${lat}&lon=${lon}`);
         
         if (res.status === 200) {
             const data: WeatherDataObjType = await res.json();

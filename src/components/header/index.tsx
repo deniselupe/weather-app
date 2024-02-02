@@ -38,7 +38,7 @@ export default function Header() {
     const handleInputSearch = async (value: string) => {
         if (value.trim().length > 0) {
             const searchValue = encodeURIComponent(value.trim());
-            const res = await fetch(`/frontend/api/geo?loc=${searchValue}`);
+            const res = await fetch(`/weather/api/geo?loc=${searchValue}`);
             const data = await res.json();
 
             setSearchResults(data);

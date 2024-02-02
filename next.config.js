@@ -3,7 +3,7 @@
 const nextConfig = {
     reactStrictMode: false,
     output: "standalone",
-    basePath: "/frontend",
+    basePath: "/weather",
 }
 
 module.exports = nextConfig
