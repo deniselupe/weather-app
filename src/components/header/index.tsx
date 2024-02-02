@@ -11,7 +11,7 @@ export default function Header() {
     const [selectedItem, setSelectedItem] = useState(-1);
     const [showInputError, setShowInputError] = useState(false);
     
-    const { fetchCurrentWeather } = useWeatherContext();
+    const { fetchWeatherData } = useWeatherContext();
 
     const handleSubmit = () => {
         const selectedLoc = searchResults[selectedItem];
@@ -19,7 +19,7 @@ export default function Header() {
         const latCoord = selectedLoc["lat"];
         const lonCoord = selectedLoc["lon"];
 
-        fetchCurrentWeather(city, latCoord, lonCoord);
+        fetchWeatherData(city, latCoord, lonCoord);
         setShowInputError(false);
     };
 

@@ -3,8 +3,8 @@
 import { useWeatherContext } from "@/contexts/weather";
 
 export default function MainWeatherWidget() {
-    const { fetchMainWidgetData } = useWeatherContext();
-    const data = fetchMainWidgetData();
+    const { fetchMainData } = useWeatherContext();
+    const data = fetchMainData();
 
     if (data === null) {
         return null;

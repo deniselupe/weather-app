@@ -74,12 +74,22 @@ type DailyWeatherType = {
     uvi: number;
 };
 
-type MainWidgetDataType = {
+type MainDataType = {
     location: string;
     currTemp: number;
     description: string;
     minTemp: number;
     maxTemp: number;
+};
+
+type CurrentDataType = {
+    feelsLike: number;
+    humidity: number;
+    pressure: string;
+    sunrise: string;
+    sunset: string;
+    windSpeed: number;
+    uvIndex: number;
 };
 
 export type WeatherDataObjType = {
@@ -99,6 +109,7 @@ export type WeatherProviderProps = {
 };
 
 export type WeatherContextType = {
-    fetchCurrentWeather: (city: string, lat: number, lon: number) => void;
-    fetchMainWidgetData: () => MainWidgetDataType | null;
+    fetchWeatherData: (city: string, lat: number, lon: number) => void;
+    fetchMainData: () => MainDataType | null;
+    fetchCurrentData: () => CurrentDataType  | null;
 };
