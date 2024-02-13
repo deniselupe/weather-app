@@ -23,10 +23,12 @@ export default function CurrentWeatherWidget() {
                     <h2 className="text-xs">PRESSURE</h2>
                     <p className="text-3xl">{data.pressure} inHg</p>
                 </div>
-                <div id="sunrise" className="w-32 h-32 p-4 grow bg-gray-800 rounded-3xl">
-                    <h2 className="text-xs">SUNRISE</h2>
-                    <p className="text-2xl">{data.sunrise}</p>
-                    <p className="mt-6 text-xs">Sunset: {data.sunset}</p>
+                <div id="sunrise" className="w-32 h-32 p-4 grow bg-gray-800 rounded-3xl flex flex-col justify-between">
+                    <div>
+                        <h2 className="text-xs">SUNRISE</h2>
+                        <p className="text-2xl">{data.sunrise}</p>
+                    </div>
+                    <p className="text-xs">Sunset: {data.sunset}</p>
                 </div>
                 <div id="wind-speed" className="w-32 h-32 p-4 grow bg-gray-800 rounded-3xl">
                     <h2 className="text-xs">WIND SPEED</h2>
