@@ -1,19 +1,19 @@
 "use client";
 
 import { useState, createContext, useContext, useEffect } from "react";
-import { WeatherProviderProps, WeatherContextType, WeatherDataObjType, WeatherDataType } from "@/types/weather";
+import { WeatherContextAPI } from "@/types/weather";
 
-const WeatherContext = createContext({} as WeatherContextType);
+const WeatherContext = createContext({} as WeatherContextAPI.WeatherContextType);
 
-export function WeatherProvider({ children }: WeatherProviderProps) {
+export function WeatherProvider({ children }: WeatherContextAPI.WeatherProviderProps) {
     const [city, setCity] = useState("");
-    const [weatherData, setWeatherData] = useState<WeatherDataType>({});
+    const [weatherData, setWeatherData] = useState<WeatherContextAPI.WeatherDataType>({});
 
     const fetchWeatherData = async (city: string, lat: number, lon: number) => {
         const res = await fetch(`/weather/api/weather?lat=${lat}&lon=${lon}`);
-        
+
         if (res.status === 200) {
-            const data: WeatherDataObjType = await res.json();
+            const data: WeatherContextAPI.WeatherDataObjType = await res.json();
             setCity(city);
             setWeatherData(data);
         }
@@ -21,7 +21,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
 
     const fetchMainData = () => {
         if (Object.keys(weatherData).length > 0) {
-            const data = structuredClone(weatherData) as WeatherDataObjType;
+            const data = structuredClone(weatherData) as WeatherContextAPI.WeatherDataObjType;
 
             return {
                 location: city,
@@ -37,7 +37,7 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
 
     const fetchCurrentData = () => {
         if (Object.keys(weatherData).length > 0) {
-            const data = structuredClone(weatherData) as WeatherDataObjType;
+            const data = structuredClone(weatherData) as WeatherContextAPI.WeatherDataObjType;
             const options: Intl.DateTimeFormatOptions = { hour: "numeric", minute: "numeric", hour12: true };
 
             return {
@@ -56,11 +56,11 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
 
     const fetchForecastData = () => {
         if (Object.keys(weatherData).length > 0) {
-            const data = structuredClone(weatherData) as WeatherDataObjType;
-            
+            const data = structuredClone(weatherData) as WeatherContextAPI.WeatherDataObjType;
+
             return {
-                dailyData: data.daily,
-                hourlyData: data.hourly
+                hourlyData: data.hourly,
+                dailyData: data.daily
             };
         }
 
@@ -72,12 +72,12 @@ export function WeatherProvider({ children }: WeatherProviderProps) {
     }, []);
 
     return (
-        <WeatherContext.Provider 
-            value={{ 
-                fetchWeatherData, 
-                fetchMainData, 
-                fetchCurrentData, 
-                fetchForecastData 
+        <WeatherContext.Provider
+            value={{
+                fetchWeatherData,
+                fetchMainData,
+                fetchCurrentData,
+                fetchForecastData
             }}
         >
             {children}
