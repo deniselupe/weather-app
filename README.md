@@ -1,14 +1,16 @@
 # Weather App
 
-![thumbnail](https://github.com/deniselupe/weather-app/assets/64881284/999e15a4-02c8-4663-a6c0-df27b91ddd24)
+![weather_app](https://github.com/deniselupe/weather-app/assets/64881284/53aa1ccf-96e3-4503-ba1e-8631e00c03a8)
 
 ## Overview
-Welcome to Weatherly, a modern and intuitive weather application built with __Next.js 14__, __TypeScript__, __Tailwind CSS__, and powered by the __OpenWeatherMap__ API. Stay informed about the weather conditions in any location with ease and style.
+Welcome to Weather App, modern and intuitive weather application built with __Next.js 14__, __TypeScript__, __Tailwind CSS__, and powered by the __OpenWeatherMap__ API. Stay informed about the weather conditions in any location with ease and style.
+
+You can visit the live version [here](https://deniselupe.com/weather).
 
 ## Features
 1. Auto-Suggest Search Bar
-   - Effortlessly find the weather for any location with our dynamic auto-suggest search bar.
-   - As you type, the app performs geolocation searching, querying the OpenWeatherMap API to provide real-time suggestions based on your input.
+   - Effortlessly find the weather for any location using the dynamic auto-suggest search bar.
+   - As users type, the app performs geolocation searching, querying the OpenWeatherMap API to provide real-time suggestions based on the users input.
 
 2. Navigate with Ease
    - Navigate through auto-suggested options effortlessly using your up/down arrow keys or the mouse.
