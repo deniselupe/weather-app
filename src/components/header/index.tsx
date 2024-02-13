@@ -6,18 +6,18 @@ import { useWeatherContext } from "@/contexts/weather";
 
 export default function Header() {
     const [searchText, setSearchText] = useState("");
-    const [searchResults, setSearchResults] = useState<LocationsType>([]);
+    const [locationResults, setLocationResults] = useState<LocationsType>([]);
+    const [selectedLocation, setSelectedLocation] = useState(-1);
     const [showAutoSuggest, setShowAutoSuggest] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(-1);
     const [showInputError, setShowInputError] = useState(false);
     
     const { fetchWeatherData } = useWeatherContext();
 
     const handleSubmit = () => {
-        const selectedLoc = searchResults[selectedItem];
-        const city = selectedLoc["name"];
-        const latCoord = selectedLoc["lat"];
-        const lonCoord = selectedLoc["lon"];
+        const location = locationResults[selectedLocation];
+        const city = location["name"];
+        const latCoord = location["lat"];
+        const lonCoord = location["lon"];
 
         fetchWeatherData(city, latCoord, lonCoord);
         setShowInputError(false);
@@ -41,9 +41,9 @@ export default function Header() {
             const res = await fetch(`/weather/api/geo?loc=${searchValue}`);
             const data = await res.json();
 
-            setSearchResults(data);
+            setLocationResults(data);
         } else {
-            setSearchResults([]);
+            setLocationResults([]);
         }
     };
 
@@ -55,7 +55,7 @@ export default function Header() {
         if (!!showInputError) setShowInputError(false);
 
         setSearchText(value);
-        setSelectedItem(-1);
+        setSelectedLocation(-1);
         debouncedHandleSearch(value);
     };
 
@@ -65,10 +65,10 @@ export default function Header() {
         if (!allowedKeys.includes(e.key)) return;
 
         if (e.key === "ArrowDown") {
-            if (searchResults.length === 0) return;
+            if (locationResults.length === 0) return;
 
-            setSelectedItem((prev) => {
-                if (prev < searchResults.length - 1) {
+            setSelectedLocation((prev) => {
+                if (prev < locationResults.length - 1) {
                     return prev + 1;
                 } else {
                     return 0;
@@ -77,17 +77,17 @@ export default function Header() {
         } else if (e.key === "ArrowUp") {
             e.preventDefault();
 
-            if (searchResults.length === 0) return;
+            if (locationResults.length === 0) return;
 
-            setSelectedItem((prev) => {
+            setSelectedLocation((prev) => {
                 if (prev > 0) {
                     return prev - 1;
                 } else {
-                    return searchResults.length - 1;
+                    return locationResults.length - 1;
                 }
             });
         } else if (e.key === "Enter") {
-            if (selectedItem === -1 || searchResults.length === 0 || searchText.trim().length === 0) {
+            if (selectedLocation === -1 || locationResults.length === 0 || searchText.trim().length === 0) {
                 setShowInputError(true);
                 return;
             }
@@ -110,16 +110,16 @@ export default function Header() {
     };
 
     useEffect(() => {
-        if (selectedItem !== -1 && searchResults.length > 0) {
-            const selectedLoc = searchResults[selectedItem];
-            const locName = selectedLoc["name"];
-            const locState = selectedLoc["state"];
-            const locCountry = selectedLoc["country"];
+        if (selectedLocation !== -1 && locationResults.length > 0) {
+            const location = locationResults[selectedLocation];
+            const locName = location["name"];
+            const locState = location["state"];
+            const locCountry = location["country"];
             const newSearchTextValue = `${locName}, ${locState}, ${locCountry}`;
 
             setSearchText(newSearchTextValue);
         }
-    }, [selectedItem]);
+    }, [selectedLocation]);
 
     return (
         <header className="text-white font-light my-6">
@@ -142,7 +142,7 @@ export default function Header() {
                     &&
                     <div id="auto-suggest" className="w-full md:w-[400px] fixed absolute right-0 bg-white rounded">
                         {
-                            searchResults.map((location, index) => {
+                            locationResults.map((location, index) => {
                                 const name = location["name"];
                                 const state = location["state"];
                                 const country = location["country"];
@@ -154,8 +154,8 @@ export default function Header() {
                                     <div
                                         id="auto-suggest-item"
                                         key={uniqId}
-                                        className={`px-4 py-2 ${selectedItem === index && "bg-zinc-100"} cursor-pointer flex justify-between items-center rounded`}
-                                        onMouseEnter={() => setSelectedItem(index)}
+                                        className={`px-4 py-2 ${selectedLocation === index && "bg-zinc-100"} cursor-pointer flex justify-between items-center rounded`}
+                                        onMouseEnter={() => setSelectedLocation(index)}
                                         onClick={handleSubmit}
                                     >
                                         <p className="text-sm">{name}, {state}, {country}</p>
