@@ -1,5 +1,5 @@
 import { type NextRequest } from "next/server";
-import { WeatherDataObjType } from "@/types/weather";
+import { WeatherContextAPI } from "@/types/weather";
 
 export async function GET(req: NextRequest) {
     const url = process.env.CURRENT_WEATHER_URL;
@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
     if (currentWeatherResponse.status !== 200) {
         return Response.json({ error: "Something went wrong with the request." }, { status: 400 });
     } else {
-        const currentWeatherData: WeatherDataObjType = await currentWeatherResponse.json();
+        const currentWeatherData: WeatherContextAPI.WeatherDataObjType = await currentWeatherResponse.json();
         return Response.json(currentWeatherData);
     }
 }
