@@ -49,4 +49,18 @@ describe("Header", () => {
             expect(global.fetch).toHaveBeenCalledTimes(1);
         });
     });
+
+    test("handles input change", async () => {
+        const user = userEvent.setup();
+
+        render(<Header />);
+
+        const input = screen.getByPlaceholderText("Search city...");
+
+        await user.type(input, "New York");
+
+        await waitFor(() => {
+            expect(input).toHaveValue("New York");
+        });
+    });
 });
