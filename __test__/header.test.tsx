@@ -95,4 +95,36 @@ describe("Header", () => {
             expect(screen.queryByTestId("auto-suggest")).toBeNull();
         });
     });
+
+    test("renders auto suggest dropdown options", async () => {
+        const user = userEvent.setup();
+
+        render(<Header />);
+
+        await user.type(screen.getByRole("textbox"), "Houston");
+
+        await waitFor(() => {
+            expect(screen.queryAllByTestId("auto-suggest-item")).toHaveLength(2);
+        });
+    });
+
+    test("hides auto suggest items on zero results", async () => {
+        const user = userEvent.setup();
+
+        render(<Header />);
+
+        const input = screen.getByRole("textbox");
+
+        await user.type(input, "Houston");
+
+        await waitFor(() => {
+            expect(screen.queryAllByTestId("auto-suggest-item")).toHaveLength(2);
+        });
+
+        await user.clear(input);
+
+        await waitFor(() => {
+            expect(screen.queryAllByTestId("auto-suggest-item")).toHaveLength(0);
+        });
+    });
 });
