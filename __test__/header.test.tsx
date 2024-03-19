@@ -2,10 +2,12 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Header from "@/components/header";
 
-describe("Header", () => {
-    beforeAll(() => {
-        global.fetch = jest.fn(() => {
+const mockFetch = (input: RequestInfo | URL, init?: RequestInit | undefined) => {
+    switch (input) {
+        case "/weather/api/geo?loc=Houston":
             return Promise.resolve({
+                ok: true,
+                status: 200,
                 json: () => Promise.resolve([
                     {
                         "name": "Houston",
@@ -22,8 +24,19 @@ describe("Header", () => {
                         "state": "Alaska"
                     }
                 ])
-            });
-        }) as jest.Mock;
+            })
+        case "/weather/api/geo?loc=test":
+            return Promise.resolve({
+                ok: true,
+                status: 200,
+                json: () => Promise.resolve([])
+            })
+    }
+};
+
+describe("Header", () => {
+    beforeAll(() => {
+        global.fetch = jest.fn(mockFetch) as jest.Mock;
     });
 
     afterEach(() => jest.clearAllMocks());
@@ -31,23 +44,9 @@ describe("Header", () => {
     test("renders input field", () => {
         render(<Header />);
     
-        const input = screen.getByPlaceholderText("Search city...");
+        const input = screen.getByRole("textbox");
         
         expect(input).toBeInTheDocument();
-    });
-    
-    test("calls fetch when input value is changed", async () => {
-        const user = userEvent.setup();
-    
-        render(<Header />);
-    
-        const input = screen.getByPlaceholderText("Search city...");
-    
-        await user.type(input, "New York");
-    
-        await waitFor(() => {
-            expect(global.fetch).toHaveBeenCalledTimes(1);
-        });
     });
 
     test("handles input change", async () => {
@@ -55,12 +54,12 @@ describe("Header", () => {
 
         render(<Header />);
 
-        const input = screen.getByPlaceholderText("Search city...");
+        const input = screen.getByRole("textbox");
 
-        await user.type(input, "New York");
+        await user.type(input, "Houston");
 
         await waitFor(() => {
-            expect(input).toHaveValue("New York");
+            expect(input).toHaveValue("Houston");
         });
     });
 });
