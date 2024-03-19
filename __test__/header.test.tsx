@@ -45,86 +45,162 @@ describe("Header", () => {
     afterEach(() => jest.clearAllMocks());
 
     test("renders input field", () => {
-        render(<Header />);
+        const { getByRole } = render(<Header />);
         
-        expect(screen.getByRole("textbox")).toBeInTheDocument();
+        expect(getByRole("textbox")).toBeInTheDocument();
     });
 
     test("handles input change", async () => {
         const user = userEvent.setup();
 
-        render(<Header />);
+        const { getByRole } = render(<Header />);
 
-        await user.type(screen.getByRole("textbox"), "Houston");
+        await user.type(getByRole("textbox"), "Houston");
 
         await waitFor(() => {
-            expect(screen.getByRole("textbox")).toHaveValue("Houston");
+            expect(getByRole("textbox")).toHaveValue("Houston");
         });
     });
 
     test("displays auto suggest container on input focus", async () => {
         const user = userEvent.setup();
 
-        render(<Header />);
+        const { queryByTestId, getByRole } = render(<Header />);
 
-        expect(screen.queryByTestId("auto-suggest")).toBeNull();
+        expect(queryByTestId("auto-suggest")).toBeNull();
 
-        await user.pointer({keys: "[MouseLeft]", target: screen.getByRole("textbox")});
+        await user.pointer({keys: "[MouseLeft]", target: getByRole("textbox")});
 
         await waitFor(() => {
-            expect(screen.getByTestId("auto-suggest")).toBeInTheDocument();
+            expect(queryByTestId("auto-suggest")).not.toBeNull();
         });
     });
 
     test("hides auto suggest container on input blur", async () => {
         const user = userEvent.setup();
 
-        render(<Header />);
+        const { queryByTestId, getByRole } = render(<Header />);
 
-        expect(screen.queryByTestId("auto-suggest")).toBeNull();
+        expect(queryByTestId("auto-suggest")).toBeNull();
 
-        await user.pointer({keys: "[MouseLeft]", target: screen.getByRole("textbox")});
+        await user.pointer({keys: "[MouseLeft]", target: getByRole("textbox")});
 
         await waitFor(() => {
-            expect(screen.queryByTestId("auto-suggest")).not.toBeNull();
+            expect(queryByTestId("auto-suggest")).not.toBeNull();
         });
 
         await user.pointer({keys: "[MouseLeft]", target: document.body});
 
         await waitFor(() => {
-            expect(screen.queryByTestId("auto-suggest")).toBeNull();
+            expect(queryByTestId("auto-suggest")).toBeNull();
         });
     });
 
     test("renders auto suggest dropdown options", async () => {
         const user = userEvent.setup();
 
-        render(<Header />);
+        const { getByRole, queryAllByTestId } = render(<Header />);
 
-        await user.type(screen.getByRole("textbox"), "Houston");
+        await user.type(getByRole("textbox"), "Houston");
 
         await waitFor(() => {
-            expect(screen.queryAllByTestId("auto-suggest-item")).toHaveLength(2);
+            expect(queryAllByTestId("auto-suggest-item")).toHaveLength(2);
         });
     });
 
     test("hides auto suggest items on zero results", async () => {
         const user = userEvent.setup();
 
-        render(<Header />);
+        const { getByRole, queryAllByTestId } = render(<Header />);
 
-        const input = screen.getByRole("textbox");
+        const input = getByRole("textbox");
 
         await user.type(input, "Houston");
 
         await waitFor(() => {
-            expect(screen.queryAllByTestId("auto-suggest-item")).toHaveLength(2);
+            expect(queryAllByTestId("auto-suggest-item")).toHaveLength(2);
         });
 
         await user.clear(input);
 
         await waitFor(() => {
-            expect(screen.queryAllByTestId("auto-suggest-item")).toHaveLength(0);
+            expect(queryAllByTestId("auto-suggest-item")).toHaveLength(0);
+        });
+    });
+
+    test('navigates down auto suggest items when pressing ArrowDown key and update input value', async () => {
+        const user = userEvent.setup();
+
+        const { getByRole, queryAllByTestId } = render(<Header />);
+
+        const input = getByRole("textbox");
+
+        await user.type(input, "Houston");
+
+        await waitFor(() => {
+            expect(queryAllByTestId("auto-suggest-item")).toHaveLength(2);
+            expect(input).toHaveValue("Houston");
+        });
+
+        await user.keyboard("[ArrowDown]");
+
+        await waitFor(() => {
+            expect(queryAllByTestId("auto-suggest-item")).toHaveLength(2);
+            expect(input).toHaveValue("Houston, Missouri, US");
+        });
+    });
+
+    test('navigates up auto suggest items when pressing ArrowUp key and update input value', async () => {
+        const user = userEvent.setup();
+
+        const { getByRole, queryAllByTestId } = render(<Header />);
+
+        const input = getByRole("textbox");
+
+        await user.type(input, "Houston");
+
+        await waitFor(() => {
+            expect(queryAllByTestId("auto-suggest-item")).toHaveLength(2);
+            expect(input).toHaveValue("Houston");
+        });
+
+        await user.keyboard("[ArrowUp]");
+
+        await waitFor(() => {
+            expect(queryAllByTestId("auto-suggest-item")).toHaveLength(2);
+            expect(input).toHaveValue("Houston, Alaska, US");
+        });
+    });
+
+    test("hides input error on initial render", () => {
+        const { queryByText } = render(<Header />);
+
+        expect(queryByText("Not found. To make search precise, input the name of a city.")).toBeNull();
+    });
+
+    test("displays input error when submitting empty search value", async () => {
+        const user = userEvent.setup();
+
+        const { getByRole, getByText } = render(<Header />);
+
+        await user.type(getByRole("textbox"), "   ");
+        await user.keyboard("[Enter]");
+
+        await waitFor(() => {
+            expect(getByText("Not found. To make search precise, input the name of a city.")).toBeInTheDocument();
+        });
+    });
+
+    test("displays input error when no auto suggest item is selected for search", async () => {
+        const user = userEvent.setup();
+
+        const { getByRole, getByText } = render(<Header />);
+
+        await user.type(getByRole("textbox"), "Houston");
+        await user.keyboard("[Enter]");
+
+        await waitFor(() => {
+            expect(getByText("Not found. To make search precise, input the name of a city.")).toBeInTheDocument();
         });
     });
 });
