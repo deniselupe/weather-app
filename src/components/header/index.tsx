@@ -87,7 +87,7 @@ export default function Header() {
                 }
             });
         } else if (e.key === "Enter") {
-            if (selectedLocation === -1 || locationResults.length === 0 || searchText.trim().length === 0) {
+            if (selectedLocation === -1 || searchText.trim().length === 0) {
                 setShowInputError(true);
                 return;
             }
