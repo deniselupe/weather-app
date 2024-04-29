@@ -5,6 +5,16 @@ import Header from "@/components/header";
 
 configure({ testIdAttribute: "id" });
 
+jest.mock("@/contexts/weather", () => {
+    return {
+        useWeatherContext: () => {
+            return {
+                fetchWeatherData: jest.fn()
+            }
+        }
+    }
+});
+
 const mockFetch = (input: RequestInfo | URL, init?: RequestInit | undefined) => {
     switch (input) {
         case "/weather/api/geo?loc=Houston":
@@ -108,7 +118,7 @@ describe("Header", () => {
         });
     });
 
-    test("hides auto suggest items on zero results", async () => {
+    test("hides auto suggest items when clearing search text", async () => {
         const user = userEvent.setup();
 
         const { getByRole, queryAllByTestId } = render(<Header />);
@@ -122,6 +132,18 @@ describe("Header", () => {
         });
 
         await user.clear(input);
+
+        await waitFor(() => {
+            expect(queryAllByTestId("auto-suggest-item")).toHaveLength(0);
+        });
+    });
+
+    test("hides auto suggest items when no search results returns", async () => {
+        const user = userEvent.setup();
+
+        const { getByRole, queryAllByTestId } = render(<Header />);
+
+        await user.type(getByRole("textbox"), "test");
 
         await waitFor(() => {
             expect(queryAllByTestId("auto-suggest-item")).toHaveLength(0);
@@ -202,5 +224,29 @@ describe("Header", () => {
         await waitFor(() => {
             expect(getByText("Not found. To make search precise, input the name of a city.")).toBeInTheDocument();
         });
+    });
+
+    test("blurs input on search submit", async () => {
+        const user = userEvent.setup();
+
+        const { getByRole, queryAllByTestId } = render(<Header />);
+
+        const input = getByRole("textbox");
+
+        await user.type(input, "Houston");
+
+        await waitFor(() => {
+            expect(queryAllByTestId("auto-suggest-item")).toHaveLength(2);
+            expect(input).toHaveValue("Houston");
+        });
+
+        await user.keyboard("[ArrowDown]");
+
+        await waitFor(() => {
+            expect(queryAllByTestId("auto-suggest-item")).toHaveLength(2);
+            expect(input).toHaveValue("Houston, Missouri, US");
+        });
+
+        await user.keyboard("[Enter]");
     });
 });
