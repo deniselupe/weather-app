@@ -111,6 +111,7 @@ export namespace WeatherContextAPI {
         fetchMainData: () => MainDataType | null;
         fetchCurrentData: () => CurrentDataType | null;
         fetchForecastData: () => ForecastDataType | null;
+        fetchHourlyForecast: () => OpenWeatherMapAPIResponse.HourlyWeatherType[] | null;
     };
 
     export type WeatherDataObjType = {

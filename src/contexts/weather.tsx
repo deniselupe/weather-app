@@ -69,6 +69,16 @@ export function WeatherProvider({ children }: WeatherContextAPI.WeatherProviderP
         return null;
     };
 
+    const fetchHourlyForecast = () => {
+        const data = structuredClone(weatherData) as WeatherContextAPI.WeatherDataObjType;
+
+        if (data["hourly"]) {
+            return data["hourly"];
+        }
+
+        return null;
+    };
+
     useEffect(() => {
         fetchWeatherData("Saint Louis", 38.6319657, -90.2428756);
     }, []);
@@ -79,7 +89,8 @@ export function WeatherProvider({ children }: WeatherContextAPI.WeatherProviderP
                 fetchWeatherData,
                 fetchMainData,
                 fetchCurrentData,
-                fetchForecastData
+                fetchForecastData,
+                fetchHourlyForecast
             }}
         >
             {children}

@@ -3,6 +3,7 @@
 import { useWeatherContext } from "@/contexts/weather";
 import Visibility from "@/components/widgets/visibility";
 import DewPoint from "@/components/widgets/dew-point";
+import HourlyForecast from "@/components/widgets/hourly-forecast";
 
 export default function CurrentWeatherWidget() {
     const { fetchCurrentData } = useWeatherContext();
@@ -21,6 +22,7 @@ export default function CurrentWeatherWidget() {
                     <h2 className="text-xs">HUMIDITY</h2>
                     <p className="text-3xl">{data.humidity}%</p>
                 </div>
+                <HourlyForecast />
                 <div id="pressure" className="w-32 h-32 p-4 grow bg-gray-800 rounded-3xl">
                     <h2 className="text-xs">PRESSURE</h2>
                     <p className="text-3xl">{data.pressure} inHg</p>
