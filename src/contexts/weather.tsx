@@ -47,7 +47,9 @@ export function WeatherProvider({ children }: WeatherContextAPI.WeatherProviderP
                 sunrise: new Date(data.current.sunrise * 1000).toLocaleTimeString("en", options),
                 sunset: new Date(data.current.sunset * 1000).toLocaleTimeString("en", options),
                 windSpeed: Math.round(data.current.wind_speed),
-                uvIndex: data.current.uvi
+                uvIndex: data.current.uvi,
+                visibility: data.current.visibility,
+                dewPoint: data.current.dew_point,
             };
         }
 
@@ -67,6 +69,16 @@ export function WeatherProvider({ children }: WeatherContextAPI.WeatherProviderP
         return null;
     };
 
+    const fetchHourlyData = () => {
+        const data = structuredClone(weatherData) as WeatherContextAPI.WeatherDataObjType;
+        
+        if (data["hourly"]) {
+            return data["hourly"];    
+        }
+
+        return null;
+    };
+
     useEffect(() => {
         fetchWeatherData("Saint Louis", 38.6319657, -90.2428756);
     }, []);
@@ -77,7 +89,8 @@ export function WeatherProvider({ children }: WeatherContextAPI.WeatherProviderP
                 fetchWeatherData,
                 fetchMainData,
                 fetchCurrentData,
-                fetchForecastData
+                fetchForecastData,
+                fetchHourlyData,
             }}
         >
             {children}

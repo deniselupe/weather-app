@@ -93,6 +93,8 @@ export namespace WeatherContextAPI {
         sunset: string;
         windSpeed: number;
         uvIndex: number;
+        visibility: number;
+        dewPoint: number;
     };
 
     type ForecastDataType = {
@@ -109,6 +111,7 @@ export namespace WeatherContextAPI {
         fetchMainData: () => MainDataType | null;
         fetchCurrentData: () => CurrentDataType | null;
         fetchForecastData: () => ForecastDataType | null;
+        fetchHourlyData: () => OpenWeatherMapAPIResponse.HourlyWeatherType[] | null;
     };
 
     export type WeatherDataObjType = {
