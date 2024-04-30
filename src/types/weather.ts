@@ -93,6 +93,8 @@ export namespace WeatherContextAPI {
         sunset: string;
         windSpeed: number;
         uvIndex: number;
+        visibility: number;
+        dewPoint: number;
     };
 
     type ForecastDataType = {

@@ -1,6 +1,8 @@
 "use client";
 
 import { useWeatherContext } from "@/contexts/weather";
+import Visibility from "@/components/widgets/visibility";
+import DewPoint from "@/components/widgets/dew-point";
 
 export default function CurrentWeatherWidget() {
     const { fetchCurrentData } = useWeatherContext();
@@ -38,6 +40,8 @@ export default function CurrentWeatherWidget() {
                     <h2 className="text-xs">UV INDEX</h2>
                     <p className="text-3xl">{data.uvIndex}</p>
                 </div>
+                <Visibility visibility={data.visibility} />
+                <DewPoint dewPoint={data.dewPoint} />
             </div>
         );
     }
