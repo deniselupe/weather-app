@@ -11,7 +11,7 @@ export default function HourlyForecast() {
     const data = fetchHourlyForecast();
 
     if (data === null) {
-        return <div id="hourly-forecast" className="h-32 p-4 space-y-4 grow col-span-2 bg-gray-800 rounded-3xl" />;
+        return <div id="hourly-forecast" className="h-44 p-8 space-y-4 grow col-span-2 bg-gray-800 rounded-3xl" />;
     } else {
         const itemsPerPage = 5;
         const totalPages = Math.ceil(data.length /itemsPerPage);
@@ -45,7 +45,7 @@ export default function HourlyForecast() {
         };
 
         return (
-            <div id="hourly-forecast" className="h-32 p-4 space-y-4 grow col-span-2 bg-gray-800 rounded-3xl">
+            <div id="hourly-forecast" className="h-44 p-8 space-y-4 grow col-span-2 bg-gray-800 rounded-3xl">
                 <div className="flex justify-between items-center gap-4">
                     <p className="text-xs">HOURLY FORECAST</p>
                     {

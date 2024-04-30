@@ -122,14 +122,14 @@ export default function Header() {
     }, [selectedLocation]);
 
     return (
-        <header className="text-white font-light my-6 z-10">
+        <header className="text-white font-light mt-10 z-10">
             <div className="w-5/6 md:w-3/4 mx-auto text-black relative">
                 <div id="search-bar" className="md:w-[400px] ml-auto">
                     {showInputError && <p className="mb-1 text-xs text-red-700">Not found. To make search precise, input the name of a city.</p>}
                     <input
                         type="text"
                         placeholder="Search city..."
-                        className={`w-full px-4 py-2 border ${showInputError ? "outline outline-red-700" : "outline-none"} rounded`}
+                        className={`w-full px-4 py-2 border ${showInputError ? "outline outline-red-700" : "outline-none"} rounded-3xl`}
                         value={searchText}
                         onChange={handleInputChange}
                         onKeyDown={handleInputKeydown}

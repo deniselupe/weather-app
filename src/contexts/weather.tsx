@@ -101,6 +101,16 @@ export function WeatherProvider({ children }: WeatherContextAPI.WeatherProviderP
         return null;
     };
 
+    const fetchDailyForecast = () => {
+        const data = structuredClone(weatherData) as WeatherContextAPI.WeatherDataObjType;
+
+        if (data["daily"]) {
+            return data["daily"];
+        }
+
+        return null;
+    };
+
     useEffect(() => {
         fetchWeatherData("Saint Louis", 38.6319657, -90.2428756);
     }, []);
@@ -110,10 +120,11 @@ export function WeatherProvider({ children }: WeatherContextAPI.WeatherProviderP
             value={{
                 fetchWeatherData,
                 fetchMainData,
+                fetchAirData,
                 fetchCurrentData,
                 fetchForecastData,
                 fetchHourlyForecast,
-                fetchAirData,
+                fetchDailyForecast
             }}
         >
             {children}
