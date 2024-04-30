@@ -2,20 +2,32 @@
 
 import { useState, createContext, useContext, useEffect } from "react";
 import { WeatherContextAPI } from "@/types/weather";
+import { AirPollutionDataObjType } from "@/types/air";
 
 const WeatherContext = createContext({} as WeatherContextAPI.WeatherContextType);
 
 export function WeatherProvider({ children }: WeatherContextAPI.WeatherProviderProps) {
     const [city, setCity] = useState("");
     const [weatherData, setWeatherData] = useState<WeatherContextAPI.WeatherDataType>({});
+    const [airPollutionData, setAirPollutionData] = useState<WeatherContextAPI.AirPollutionDataType>({});
 
     const fetchWeatherData = async (city: string, lat: number, lon: number) => {
-        const res = await fetch(`/weather/api/weather?lat=${lat}&lon=${lon}`);
+        try {
+            const [weatherResponse, airResponse] = await Promise.all([
+                fetch(`/weather/api/weather?lat=${lat}&lon=${lon}`),
+                fetch(`/weather/api/air?lat=${lat}&lon=${lon}`)
+            ]);
 
-        if (res.status === 200) {
-            const data: WeatherContextAPI.WeatherDataObjType = await res.json();
-            setCity(city);
-            setWeatherData(data);
+            if (weatherResponse.status === 200 && airResponse.status === 200) {
+                const fetchedWeather: WeatherContextAPI.WeatherDataObjType = await weatherResponse.json();
+                const fetchedAir: AirPollutionDataObjType = await airResponse.json();
+
+                setCity(city);
+                setWeatherData(fetchedWeather);
+                setAirPollutionData(fetchedAir);
+            }
+        } catch (error) {
+            console.error("Error fetching data: ", error);
         }
     };
 
@@ -30,6 +42,16 @@ export function WeatherProvider({ children }: WeatherContextAPI.WeatherProviderP
                 minTemp: Math.round(data.daily[0].temp.min),
                 maxTemp: Math.round(data.daily[0].temp.max),
             };
+        }
+
+        return null;
+    };
+
+    const fetchAirData = () => {
+        if (Object.keys(airPollutionData).length > 0) {
+            const data = structuredClone(airPollutionData) as AirPollutionDataObjType;
+
+            return data.main.aqi;
         }
 
         return null;
@@ -90,7 +112,8 @@ export function WeatherProvider({ children }: WeatherContextAPI.WeatherProviderP
                 fetchMainData,
                 fetchCurrentData,
                 fetchForecastData,
-                fetchHourlyForecast
+                fetchHourlyForecast,
+                fetchAirData,
             }}
         >
             {children}

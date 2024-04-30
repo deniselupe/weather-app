@@ -1,3 +1,5 @@
+import { AirPollutionDataObjType } from "@/types/air";
+
 namespace OpenWeatherMapAPIResponse {
     type WeatherType = {
         id: number;
@@ -112,6 +114,7 @@ export namespace WeatherContextAPI {
         fetchCurrentData: () => CurrentDataType | null;
         fetchForecastData: () => ForecastDataType | null;
         fetchHourlyForecast: () => OpenWeatherMapAPIResponse.HourlyWeatherType[] | null;
+        fetchAirData: () => number | null;
     };
 
     export type WeatherDataObjType = {
@@ -124,5 +127,7 @@ export namespace WeatherContextAPI {
         daily: OpenWeatherMapAPIResponse.DailyWeatherType[];
     };
 
+    export type AirPollutionDataType = AirPollutionDataObjType | {};
+    
     export type WeatherDataType = WeatherDataObjType | {};
 }
