@@ -2,9 +2,15 @@
 
 import { useWeatherContext } from "@/contexts/weather";
 import AirPollution from "@/components/widgets/air-pollution";
+import FeelsLike from "@/components/widgets/feels-like";
+import WindSpeed from "@/components/widgets/wind-speed";
+import HourlyForecast from "@/components/widgets/hourly-forecast";
+import Humidity from "@/components/widgets/humidity";
+import Pressure from "@/components/widgets/pressure";
+import SunriseSunset from "@/components/widgets/sunrise-sunset";
+import UVIndex from "@/components/widgets/uv-index";
 import Visibility from "@/components/widgets/visibility";
 import DewPoint from "@/components/widgets/dew-point";
-import HourlyForecast from "@/components/widgets/hourly-forecast";
 
 export default function CurrentWeatherWidget() {
     const { fetchCurrentData } = useWeatherContext();
@@ -14,36 +20,15 @@ export default function CurrentWeatherWidget() {
         return null;
     } else {
         return (
-            <div className="md:min-w-[420px] mb-2 flex flex-wrap justify-between md:grid md:grid-rows-2 md:grid-cols-3 gap-4 text-white">
+            <div className="min-w-64 flex flex-wrap justify-between md:grid md:grid-cols-3 lg:grid-cols-4 gap-4 text-white">
                 <AirPollution />
-                <div id="feels-like" className="w-32 h-32 p-4 grow bg-gray-800 rounded-3xl">
-                    <h2 className="text-xs">FEELS LIKE</h2>
-                    <p className="text-3xl">{data.feelsLike}°</p>
-                </div>
-                <div id="humidity" className="w-32 h-32 p-4 grow bg-gray-800 rounded-3xl">
-                    <h2 className="text-xs">HUMIDITY</h2>
-                    <p className="text-3xl">{data.humidity}%</p>
-                </div>
+                <FeelsLike feelsLike={data.feelsLike} />
+                <WindSpeed windSpeed={data.windSpeed} />
                 <HourlyForecast />
-                <div id="pressure" className="w-32 h-32 p-4 grow bg-gray-800 rounded-3xl">
-                    <h2 className="text-xs">PRESSURE</h2>
-                    <p className="text-3xl">{data.pressure} inHg</p>
-                </div>
-                <div id="sunrise" className="w-32 h-32 p-4 grow bg-gray-800 rounded-3xl flex flex-col justify-between">
-                    <div>
-                        <h2 className="text-xs">SUNRISE</h2>
-                        <p className="text-2xl">{data.sunrise}</p>
-                    </div>
-                    <p className="text-xs">Sunset: {data.sunset}</p>
-                </div>
-                <div id="wind-speed" className="w-32 h-32 p-4 grow bg-gray-800 rounded-3xl">
-                    <h2 className="text-xs">WIND SPEED</h2>
-                    <p className="text-3xl">{data.windSpeed} MPH</p>
-                </div>
-                <div id="uv-index" className="w-32 h-32 p-4 grow bg-gray-800 rounded-3xl">
-                    <h2 className="text-xs">UV INDEX</h2>
-                    <p className="text-3xl">{data.uvIndex}</p>
-                </div>
+                <Humidity humidity={data.humidity} />
+                <Pressure pressure={data.pressure} />
+                <SunriseSunset sunrise={data.sunrise} sunset={data.sunset} />
+                <UVIndex uvIndex={data.uvIndex} />
                 <Visibility visibility={data.visibility} />
                 <DewPoint dewPoint={data.dewPoint} />
             </div>
