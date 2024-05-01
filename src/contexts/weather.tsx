@@ -70,6 +70,7 @@ export function WeatherProvider({ children }: WeatherContextAPI.WeatherProviderP
                 sunrise: new Date(data.current.sunrise * 1000).toLocaleTimeString("en", options),
                 sunset: new Date(data.current.sunset * 1000).toLocaleTimeString("en", options),
                 windSpeed: Math.round(data.current.wind_speed),
+                windDegree: data.current.wind_deg,
                 uvIndex: data.current.uvi,
                 visibility: data.current.visibility,
                 dewPoint: data.current.dew_point,

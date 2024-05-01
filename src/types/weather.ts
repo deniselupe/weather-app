@@ -105,6 +105,7 @@ export namespace WeatherContextAPI {
         sunrise: string;
         sunset: string;
         windSpeed: number;
+        windDegree: number;
         uvIndex: number;
         visibility: number;
         dewPoint: number;
