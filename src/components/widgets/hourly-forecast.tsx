@@ -31,15 +31,15 @@ export default function HourlyForecast() {
             const currentHourlyData = data.slice(startIndex, endIndex);
 
             return currentHourlyData.map((hour, index) => (
-                <div key={hour.dt} id="hourly-forecast-item" className="space-y-1 text-xs">
+                <div key={hour.dt} id="hourly-forecast-item" className="space-y-2 text-xs">
+                    <p>{index === 0 && currentPage === 0 ? "Now" : new Date(hour.dt * 1000).toLocaleTimeString("en", hourlyOptions)}</p>
                     <Image 
                         src={`http://openweathermap.org/img/wn/${hour.weather[0].icon}.png`}
                         alt={hour.weather[0].description}
                         width={25}
                         height={25}
                     />
-                    {index === 0 && currentPage === 0 ? "Now" : <p>{new Date(hour.dt * 1000).toLocaleTimeString("en", hourlyOptions)}</p>}
-                    <p>{Math.round(hour.temp)}</p>
+                    <p>{Math.round(hour.temp)}°</p>
                 </div>
             ));
         };
