@@ -49,9 +49,7 @@ export default function AirPollution() {
                         }}
                     />
                 </div>
-                <p className="text-sm">
-                    {airQualityDescription()}
-                </p>
+                <p className="text-xs">{airQualityDescription()}</p>
             </div>
         );
     }
