@@ -1,6 +1,6 @@
 import { AirPollutionDataObjType } from "@/types/air";
 
-namespace OpenWeatherMapAPIResponse {
+export namespace OpenWeatherMapAPIResponse {
     type WeatherType = {
         id: number;
         main: string;
@@ -76,6 +76,16 @@ namespace OpenWeatherMapAPIResponse {
         pop: number;
         uvi: number;
     };
+
+    export type WeatherDataObjType = {
+        lat: number;
+        lon: number;
+        timezone: string;
+        timezone_offset: number;
+        current: CurrentWeatherType;
+        hourly: HourlyWeatherType[];
+        daily: DailyWeatherType[];
+    };
 }
 
 export namespace WeatherContextAPI {
@@ -119,17 +129,7 @@ export namespace WeatherContextAPI {
         fetchDailyForecast: () => OpenWeatherMapAPIResponse.DailyWeatherType[] | null;
     };
 
-    export type WeatherDataObjType = {
-        lat: number;
-        lon: number;
-        timezone: string;
-        timezone_offset: number;
-        current: OpenWeatherMapAPIResponse.CurrentWeatherType;
-        hourly: OpenWeatherMapAPIResponse.HourlyWeatherType[];
-        daily: OpenWeatherMapAPIResponse.DailyWeatherType[];
-    };
-
     export type AirPollutionDataType = AirPollutionDataObjType | {};
     
-    export type WeatherDataType = WeatherDataObjType | {};
+    export type WeatherDataType = OpenWeatherMapAPIResponse.WeatherDataObjType | {};
 }
