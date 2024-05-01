@@ -1,3 +1,5 @@
+import UVIndexIcon from "@/public/svgs/uv-index.svg";
+
 interface UVIndexProps {
     uvIndex: number;
 }
@@ -26,11 +28,14 @@ export default function UVIndex({ uvIndex }: UVIndexProps) {
     };
 
     return (
-        <div id="uv-index" className="h-44 p-8 col-span-1 space-y-1.5 grow bg-gray-800 rounded-3xl">
-            <div>
+        <div id="uv-index" className="h-44 p-8 col-span-1 grow flex flex-col justify-between bg-gray-800 rounded-3xl">
+            <div className="flex items-center gap-2">
+                <UVIndexIcon className="w-4 h-4" />
                 <h2 className="text-xs mb-1">UV INDEX</h2>
-                <p className="text-xs">{uvIndex}</p>
-                <p className="text-xs">{uviDescription()}</p>
+            </div>
+            <div>
+                <p className="text-sm">{Math.round(uvIndex)}</p>
+                <p className="text-sm">{uviDescription()}</p>
             </div>
             <div
                 id="progress-bar-outer"
