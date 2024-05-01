@@ -89,6 +89,7 @@ export namespace WeatherContextAPI {
 
     type CurrentDataType = {
         feelsLike: number;
+        mainTemp: number;
         humidity: number;
         pressure: string;
         sunrise: string;

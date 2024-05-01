@@ -22,7 +22,7 @@ export default function CurrentWeatherWidget() {
         return (
             <div className="min-w-64 flex-1 flex flex-wrap justify-between md:grid md:grid-cols-3 lg:grid-cols-4 gap-4 text-white">
                 <AirPollution />
-                <FeelsLike feelsLike={data.feelsLike} />
+                <FeelsLike feelsLike={data.feelsLike} mainTemp={data.mainTemp} />
                 <WindSpeed windSpeed={data.windSpeed} />
                 <HourlyForecast />
                 <Humidity humidity={data.humidity} />
