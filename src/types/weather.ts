@@ -101,7 +101,7 @@ export namespace WeatherContextAPI {
         feelsLike: number;
         mainTemp: number;
         humidity: number;
-        pressure: string;
+        pressure: number;
         sunrise: string;
         sunset: string;
         windSpeed: number;

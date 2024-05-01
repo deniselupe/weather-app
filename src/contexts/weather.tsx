@@ -66,7 +66,7 @@ export function WeatherProvider({ children }: WeatherContextAPI.WeatherProviderP
                 feelsLike: Math.round(data.current.feels_like),
                 mainTemp: Math.round(data.current.temp),
                 humidity: data.current.humidity,
-                pressure: (data.current.pressure * 0.02953).toFixed(2),
+                pressure: Math.round(data.current.pressure * 0.02953),
                 sunrise: new Date(data.current.sunrise * 1000).toLocaleTimeString("en", options),
                 sunset: new Date(data.current.sunset * 1000).toLocaleTimeString("en", options),
                 windSpeed: Math.round(data.current.wind_speed),
