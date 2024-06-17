@@ -37,6 +37,8 @@ export function WeatherProvider({ children }: WeatherContextAPI.WeatherProviderP
 
             return {
                 location: city,
+                latitude: data.lat,
+                longitude: data.lon,
                 currTemp: Math.round(data.current.temp),
                 description: data.current.weather[0].main,
                 minTemp: Math.round(data.daily[0].temp.min),

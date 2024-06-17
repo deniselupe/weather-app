@@ -91,6 +91,8 @@ export namespace OpenWeatherMapAPIResponse {
 export namespace WeatherContextAPI {
     type MainDataType = {
         location: string;
+        latitude: number;
+        longitude: number;
         currTemp: number;
         description: string;
         minTemp: number;
