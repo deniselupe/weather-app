@@ -7,7 +7,7 @@ interface SunriseSunsetProps {
 
 export default function SunriseSunset({ sunrise, sunset }: SunriseSunsetProps) {
     return (
-        <div id="sunrise" className="h-44 p-8 col-span-1 grow flex flex-col justify-between bg-gray-800 rounded-3xl">
+        <div id="sunrise" className="min-w-32 min-h-32 p-6 flex flex-col justify-between bg-neutral-900 rounded-2xl">
             <div className="flex items-center gap-2">
                 <SunriseSunsetIcon className="w-4 h-4" />
                 <h2 className="text-xs">SUNRISE</h2>

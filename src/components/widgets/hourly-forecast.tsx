@@ -11,7 +11,7 @@ export default function HourlyForecast() {
     const data = fetchHourlyForecast();
 
     if (data === null) {
-        return <div id="hourly-forecast" className="h-44 p-8 space-y-4 grow col-span-2 bg-gray-800 rounded-3xl" />;
+        return <div id="hourly-forecast" className="min-h-32 p-6 col-span-2 bg-neutral-900 rounded-2xl" />;
     } else {
         const itemsPerPage = 5;
         const totalPages = Math.ceil(data.length /itemsPerPage);
@@ -31,7 +31,7 @@ export default function HourlyForecast() {
             const currentHourlyData = data.slice(startIndex, endIndex);
 
             return currentHourlyData.map((hour, index) => (
-                <div key={hour.dt} id="hourly-forecast-item" className="space-y-2 text-xs">
+                <div key={hour.dt} id="hourly-forecast-item" className="text-xs">
                     <p>{index === 0 && currentPage === 0 ? "Now" : new Date(hour.dt * 1000).toLocaleTimeString("en", hourlyOptions)}</p>
                     <Image 
                         src={`http://openweathermap.org/img/wn/${hour.weather[0].icon}.png`}
@@ -45,7 +45,7 @@ export default function HourlyForecast() {
         };
 
         return (
-            <div id="hourly-forecast" className="h-44 p-8 space-y-4 grow col-span-2 bg-gray-800 rounded-3xl">
+            <div id="hourly-forecast" className="min-w-64 min-h-32 p-6 col-span-2 flex flex-col justify-between bg-neutral-900 rounded-2xl">
                 <div className="flex justify-between items-center gap-4">
                     <p className="text-xs">HOURLY FORECAST</p>
                     {

@@ -8,7 +8,7 @@ export default function AirPollution() {
     const airQualityIndex = fetchAirData();
 
     if (airQualityIndex === null) {
-        return <div id="air-pollution" className="h-44 p-8 grow col-span-2 flex flex-col justify-between bg-gray-800 rounded-3xl" />
+        return <div id="air-pollution" className="min-w-64 min-h-32 p-6 col-span-2 flex flex-col justify-between bg-neutral-900 rounded-2xl" />
     } else {
         const airQualityDescription = () => {
             if (airQualityIndex === 1) {
@@ -25,7 +25,7 @@ export default function AirPollution() {
         };
 
         return (
-            <div id="air-pollution" className="h-44 p-8 grow col-span-2 flex flex-col justify-between bg-gray-800 rounded-3xl">
+            <div id="air-pollution" className="min-w-64 min-h-32 p-6 col-span-2 flex flex-col justify-between bg-neutral-900 rounded-2xl">
                 <div className="flex items-center gap-2">
                     <AirPollutionIcon className="w-4 h-4" />
                     <h2 className="text-xs">AIR POLLUTION</h2>

@@ -7,12 +7,12 @@ interface WindSpeedProps {
 
 export default function WindSpeed({ windSpeed, windDegree }: WindSpeedProps) {
     return (
-        <div id="wind-speed" className="h-44 p-8 col-span-1 grow flex flex-col justify-between gap-4 bg-gray-800 rounded-3xl">
+        <div id="wind-speed" className="min-w-32 min-h-32 p-6 flex flex-col justify-between bg-neutral-900 rounded-2xl">
             <div className="flex items-center gap-2">
                 <WindSpeedIcon className="w-4 h-4" />
                 <h2 className="text-xs">WIND SPEED</h2>
             </div>
-            <div className="relative w-28 h-28 mx-auto flex justify-center items-center">
+            <div className="relative w-24 h-24 mx-auto flex justify-center items-center">
                 <div className="absolute text-xs">
                     {Math.round(windSpeed)} m/s
                 </div>

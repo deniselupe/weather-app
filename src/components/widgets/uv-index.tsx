@@ -28,7 +28,7 @@ export default function UVIndex({ uvIndex }: UVIndexProps) {
     };
 
     return (
-        <div id="uv-index" className="h-44 p-8 col-span-1 grow flex flex-col justify-between bg-gray-800 rounded-3xl">
+        <div id="uv-index" className="min-w-32 min-h-32 p-6 flex flex-col justify-between bg-neutral-900 rounded-2xl">
             <div className="flex items-center gap-2">
                 <UVIndexIcon className="w-4 h-4" />
                 <h2 className="text-xs mb-1">UV INDEX</h2>

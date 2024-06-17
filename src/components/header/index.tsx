@@ -122,25 +122,25 @@ export default function Header() {
     }, [selectedLocation]);
 
     return (
-        <header className="text-white font-light mt-10 z-10">
-            <div className="w-5/6 md:w-3/4 mx-auto text-black relative">
+        <header className="p-2">
+            <div className="sm:w-3/4 mx-auto font-light relative">
                 <div id="search-bar" className="md:w-[400px] ml-auto">
-                    {showInputError && <p className="mb-1 text-xs text-red-700">Not found. To make search precise, input the name of a city.</p>}
                     <input
                         type="text"
                         placeholder="Search city..."
-                        className={`w-full px-4 py-2 border ${showInputError ? "outline outline-red-700" : "outline-none"} rounded-3xl`}
+                        className={`w-full px-4 py-2 ${showInputError ? "bg-red-200" : "bg-white"} outline-none rounded`}
                         value={searchText}
                         onChange={handleInputChange}
                         onKeyDown={handleInputKeydown}
                         onFocus={handleInputFocus}
                         onBlur={handleInputBlur}
                     />
+                    {showInputError && <p className="pt-1 text-xs text-red-600 bg-black">Not found. To make search precise, input the name of a city.</p>}
                 </div>
                 {
                     showAutoSuggest
                     &&
-                    <div id="auto-suggest" className="w-full md:w-[400px] fixed absolute right-0 bg-white rounded">
+                    <menu id="auto-suggest" className="absolute w-full md:w-[400px] right-0 bg-white rounded z-10">
                         {
                             locationResults.map((location, index) => {
                                 const name = location["name"];
@@ -164,7 +164,7 @@ export default function Header() {
                                 )
                             })
                         }
-                    </div>
+                    </menu>
                 }
             </div>
         </header>

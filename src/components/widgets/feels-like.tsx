@@ -17,7 +17,7 @@ export default function FeelsLike({ feelsLike, mainTemp }: FeelsLikeProps) {
     };
 
     return (
-        <div id="feels-like" className="h-44 p-8 col-span-1 grow flex flex-col justify-between bg-gray-800 rounded-3xl">
+        <div id="feels-like" className="min-w-32 min-h-32 p-6 flex flex-col justify-between bg-neutral-900 rounded-2xl">
             <div className="flex items-center gap-2">
                 <FeelsLikeIcon className="w-4 h-4" />
                 <h2 className="text-xs">FEELS LIKE</h2>    
