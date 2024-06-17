@@ -39,7 +39,7 @@ export default function DailyForecast() {
         };
 
         return (
-            <div id="forecast-carousel" className="grow p-6 flex flex-col justify-center gap-2 text-white bg-neutral-900 rounded-2xl">
+            <div id="forecast-carousel" className="grow p-6 flex flex-col justify-center gap-2 text-white bg-neutral-900 border border-neutral-800 rounded-2xl">
                 <h2 className="text-sm">DAILY FORECAST</h2>
                 <div className="flex flex-col divide-y">
                     {renderDailyForecast()}

@@ -16,7 +16,7 @@ export default function Pressure({ pressure }: PressureProps) {
     };
     
     return (
-        <div id="pressure" className="min-w-32 min-h-32 p-6 flex flex-col justify-between bg-neutral-900 rounded-2xl">
+        <div id="pressure" className="min-w-32 min-h-32 p-6 flex flex-col justify-between bg-neutral-900 border border-neutral-800 rounded-2xl">
             <div className="flex items-center gap-2">
                 <PressureIcon className="w-4 h-4" />
                 <h2 className="text-xs">PRESSURE</h2>

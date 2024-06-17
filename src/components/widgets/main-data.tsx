@@ -10,7 +10,7 @@ export default function MainWeatherWidget() {
         return null;
     } else {
         return (
-            <div className="grow p-6 flex flex-col justify-center items-center text-white bg-neutral-900 rounded-2xl">
+            <div className="grow p-6 flex flex-col justify-center items-center text-white bg-neutral-900 border border-neutral-800 rounded-2xl">
                 <h2 className="text-2xl">My Location</h2>
                 <p className="text-md">{data.location}</p>
                 <h1 className="text-8xl">{data.currTemp}°</h1>

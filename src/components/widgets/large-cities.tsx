@@ -55,6 +55,7 @@ export default function LargeCities() {
                     largeCities.map((largeCity) => {
                         return (
                             <button 
+                                key={`${largeCity.latitude},${largeCity.longitude}`}
                                 className="block w-full text-left p-2.5 hover:bg-white hover:bg-opacity-10 rounded-lg border border-neutral-800"
                                 onClick={() => submitHandler(largeCity)}
                             >
