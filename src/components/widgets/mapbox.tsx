@@ -1,18 +1,28 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useWeatherContext } from "@/contexts/weather";
+import { TokensResponse } from "@/types/token";
 import Map, { Layer, Source } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-const OPENWEATHERMAP_TOKEN = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
-
 export default function MapBox() {
     const [mapLayer, setMapLayer] = useState("precipitation_new");
+    const [tokens, setTokens] = useState<TokensResponse>({"MAPBOX_TOKEN": "", "OPENWEATHERMAP_TOKEN": ""})
 
     const { fetchMainData } = useWeatherContext();
     const mainData = fetchMainData();
+
+    useEffect(() => {
+        const fetchTokens = async () => {
+            const response = await fetch("/weather/api/token");
+            const data: TokensResponse = await response.json();
+
+            setTokens(data);
+        };
+
+        fetchTokens();
+    }, []);
     
     if (mainData === null) {
         return null;
@@ -35,7 +45,7 @@ export default function MapBox() {
                     </select>
                 </form>
                 <Map 
-                    mapboxAccessToken={MAPBOX_TOKEN}
+                    mapboxAccessToken={tokens["MAPBOX_TOKEN"]}
                     latitude={latitude}
                     longitude={longitude}
                     zoom={7}
@@ -53,7 +63,7 @@ export default function MapBox() {
                         id="weatherSource"
                         type="raster"
                         tiles={[
-                            `https://tile.openweathermap.org/map/${mapLayer}/{z}/{x}/{y}.png?appid=${OPENWEATHERMAP_TOKEN}`,
+                            `https://tile.openweathermap.org/map/${mapLayer}/{z}/{x}/{y}.png?appid=${tokens["OPENWEATHERMAP_TOKEN"]}`,
                         ]}
                         tileSize={256}
                     >

@@ -3,7 +3,7 @@ import { OpenWeatherMapAPIResponse } from "@/types/weather";
 
 export async function GET(req: NextRequest) {
     const url = process.env.CURRENT_WEATHER_URL;
-    const key = process.env.NEXT_PUBLIC_WEATHER_API_KEY; 
+    const key = process.env.PUBLIC_WEATHER_API_KEY; 
     const searchParams = req.nextUrl.searchParams;
     const latitude = searchParams.get("lat") as string;
     const longitude = searchParams.get("lon") as string;
