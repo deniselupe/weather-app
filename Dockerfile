@@ -1,16 +1,20 @@
+# Step 1: Base image
 FROM node:lts-bookworm-slim AS base
 
+# Step 2: Dependencies installation stage
 FROM base AS deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci
 
+# Step 3: Build stage
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
+# Step 4: Runtime image
 FROM base AS runner
 ENV NODE_ENV production
 ENV HOSTNAME "0.0.0.0"
